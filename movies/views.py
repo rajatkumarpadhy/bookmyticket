@@ -5,7 +5,7 @@ from movies.serializers import (MovieSerializer, CinemaSerializer, ShowTimeSeria
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
-
+from movies.utils import *
 
 class MovieView(APIView):
 	def get(self, request, city):
@@ -47,7 +47,9 @@ class TicketView(APIView):
 				if not Ticket.objects.filter(showtime=validated_data["showtime"],
 					seat_number=validated_data["seat_number"]):
 					serializer.save()
+					send_msg(request,user.email, create_success_msg)
 				else:
+					send_msg(request,user.email, create_failure_msg)
 					return Response({"message":"This seat is already booked"})
 				return Response(serializer.data)
 			else:
