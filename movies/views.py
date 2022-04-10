@@ -33,6 +33,7 @@ class SeatView(APIView):
 		try:
 			show = ShowTime.objects.get(id=showtime_id)
 			serializer = ShowTimeSerializer(show)
+			
 			return Response(serializer.data)
 		except Exception as e:
 			print (e)
